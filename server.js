@@ -595,12 +595,15 @@ app.get('/', (req, res) => {
     res.send(html);
 });
 
-// Démarrer le serveur
-app.listen(PORT, () => {
-    console.log(`🚀 Serveur Polnaref-Send démarré sur le port ${PORT}`);
-    console.log(`📱 Telegram Bot Token: ${TELEGRAM_BOT_TOKEN ? '✅ Configuré' : '❌ Non configuré'}`);
-    console.log(`💬 Chat ID: ${TELEGRAM_CHAT_ID}`);
-    console.log(`🌐 Accédez à: http://localhost:${PORT}`);
-});
+// Démarrer le serveur (uniquement en local)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Serveur Polnaref-Send démarré sur le port ${PORT}`);
+        console.log(`📱 Telegram Bot Token: ${TELEGRAM_BOT_TOKEN ? '✅ Configuré' : '❌ Non configuré'}`);
+        console.log(`💬 Chat ID: ${TELEGRAM_CHAT_ID}`);
+        console.log(`🌐 Accédez à: http://localhost:${PORT}`);
+    });
+}
 
-module.exports = { sendToTelegram };
+// Export pour Vercel
+module.exports = app;
